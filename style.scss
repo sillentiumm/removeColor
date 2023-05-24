@@ -1,0 +1,68 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  main {
+    display: flex;
+  }
+  
+  main > * {
+    flex: 1 1 auto;
+    width: 25%;
+    padding: 1em;
+    text-align: center;
+    position: relative;
+    
+    &::before {
+      content: attr(data-heading);
+      display: block;
+      margin-bottom: 1em;
+      font-weight: bold;
+    }
+    
+    input {
+      width: 100%;
+      margin-bottom: 1em;
+    }
+  }
+  
+  .colours > *,
+  .results .colour {
+    display: block;
+    float: left;
+    height: 1.5em;
+    width: 1.5em;
+    border-radius: 50%;
+    margin: 1px;
+    background-color: currentColor;
+    overflow: visible;
+  }
+
+  .results-colours {
+    position: relative;
+    
+    &::after {
+      content: '';
+      clear: left;
+      display: block;
+    }
+  }
+  
+  .results-colours .matches {
+    display: none;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: calc(100% + 2em);
+    
+    &::before {
+      content: 'Matches:';
+      display: block;
+      color: black;
+      margin-bottom: 1em;
+    }
+  }
+  
+  .results-colours > .colour:hover .matches {
+    display: block;
+  }

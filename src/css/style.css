@@ -1,0 +1,79 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 540px;
+}
+
+.main > * {
+  flex: 1 1 auto;
+  padding: 1em;
+  text-align: center;
+  position: relative;
+}
+
+.title {
+  font-size: 32px;
+  text-align: center;
+}
+
+.choiseImg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.choiseImg input {
+  text-align: center;
+  background-color: lightgrey;
+  font-size: 20px;
+}
+#wrap img {
+  width: 128px;
+  height: 128px;
+  margin-top: 20px;
+}
+
+#results_lab {
+  width: 240px;
+}
+
+.results_lab_title {
+  font-size: 24px;
+  padding-bottom: 0;
+}
+
+#inputLAB {
+  width: 100%;
+  font-size: 20px;
+}
+
+.btn {
+  width: 240px;
+  height: 60px;
+  background-color: lightgrey;
+  border-radius: 4px;
+  font-size: 20px;
+}
+
+
+.input_border {
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.canvasFinal {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.results-colours > .colour:hover .matches {
+  display: block;
+}
