@@ -1,6 +1,5 @@
 const img = new Image();
 img.crossOrigin = "anonymous";
-// img.src = '../img/1282.png'
 
 const btnLoad = document.getElementById('btnLoad')
 const btnDownload = document.getElementById('btnDownload')
@@ -18,10 +17,20 @@ const ctx3 = canvas3.getContext("2d", { willReadFrequently: true });
 canvas3.width = img.width;
 canvas3.height = img.height;
 
+const canvas4 = document.getElementById("canvas4");
+const ctx4 = canvas4.getContext("2d", { willReadFrequently: true });
+// canvas4.width = img.width;
+// canvas4.height = img.height;
+
+const canvas5 = document.getElementById("canvas5");
+const ctx5 = canvas5.getContext("2d", { willReadFrequently: true });
+
 let tripleCurrent = 0
 let triplePrev = 0
 let bordersVisible = false
 const allColors = [];
+defaultWidth = 0
+defaultHeight = 0
 
 const inp = document.querySelector('#inp')
 const wrap = document.getElementById('wrap')
@@ -40,9 +49,6 @@ inp.onchange = function(event) {
     wrap.appendChild(imgg)
     imgg.src = reader.result
     img.src = reader.result
-      // splitAllColors()
-      //   .then(addHashtag())
-      //     .then(third())
   }
 }
 
@@ -54,6 +60,16 @@ btnLoad.addEventListener("click", function () {
     alert('выберите изображение')
     return false
   }
+
+  defaultWidth = img.width
+  defaultHeight = img.height
+  canvas4.width = defaultWidth
+  canvas4.height = defaultHeight
+  canvas5.width = defaultWidth
+  canvas5.height = defaultHeight
+
+  // img.width = 128
+  // img.height = 128
 
   clearImg()
     .then(splitAllColors())
@@ -132,16 +148,6 @@ async function third() {
 function observeThreshold(colourSpace) {
   const _el = document.querySelector(`.results.${colourSpace}`)
   const _input = _el.querySelector('input')
-
-  // вернуть
-
-  // _input.addEventListener('change', e => {
-  //   const _colours = _el.querySelectorAll('.results-colours > .colour')
-
-  //   Array.from(_colours).forEach(_colour => _colour.remove())
-
-  //   groupSimilarColours(colourSpace)
-  // })
 }
 
 function groupSimilarColours(colourSpace) {
@@ -149,8 +155,7 @@ function groupSimilarColours(colourSpace) {
   const _colours = _el.querySelector('.results-colours')
   const threshold = _el.querySelector('input').value
   const reducedColours = {}
-
-  let availableColours = colours.slice() // Duplicate the array so it can be modified
+  let availableColours = colours.slice()
 
   zzz()
     .then(double(reducedColours))
@@ -171,60 +176,11 @@ function groupSimilarColours(colourSpace) {
           reducedColours[colour].push(otherColour)
         }
       })
-  
-      // Remove the matched colours from the available colours so that
-      // they aren't matched again
       availableColours = availableColours.filter(x => !reducedColours[colour].includes(x))
     }
   }
 
-  // while (availableColours.length > 0) {
-  //   const colour = availableColours[0]
-
-  //   reducedColours[colour] = [colour]
-
-  //   availableColours.forEach(otherColour => {
-  //     if (colour === otherColour) return
-
-  //     const diff = colourDiffs[colourSpace](colour, otherColour)
-
-  //     if (diff < threshold) {
-  //       reducedColours[colour].push(otherColour)
-  //     }
-  //   })
-
-  //   // Remove the matched colours from the available colours so that
-  //   // they aren't matched again
-  //   availableColours = availableColours.filter(x => !reducedColours[colour].includes(x))
-    
-  // }
-
-  // const sorted = Object.keys(reducedColours) // No sorting for now
-
-  // sorted.forEach(colour => {
-  //   const _colour = document.createElement('div')
-  //   const _matches = document.createElement('div')
-
-  //   _matches.classList.add('matches')
-  //   _colour.appendChild(_matches)
-
-  //   reducedColours[colour].forEach(matchedColour => {
-  //     const _matchedColour = document.createElement('div')
-
-  //     _matchedColour.style.color = matchedColour
-  //     _matchedColour.classList.add('colour')
-  //     _matches.appendChild(_matchedColour)
-  //   })
-
-  //   _colour.style.color = colour
-  //   _colour.classList.add('colour')
-  //   _colours.appendChild(_colour)
-  // })
-
-  // console.log(reducedColours )
-
 }
-
 
 function colourDiffLab(colour1, colour2) {
   var lab1 = parseColour(colour1).lab;
@@ -288,8 +244,8 @@ function deltaE(labA, labB) {
   return i < 0 ? 0 : Math.sqrt(i);
 }
 
-async function double(aaa) {
-  
+async function double(colors) { 
+  console.log('double', img.height)
     for (var y = 0; y < img.height; y++) {
       for (var x = 0; x < img.width; x++) {
         const pixel = ctx.getImageData(x, y, 1, 1).data;
@@ -301,8 +257,8 @@ async function double(aaa) {
         }
 
         let hex = rgbToHex(pixel[0], pixel[1], pixel[2]);
-            for (key in aaa) {
-              let currentColor = aaa[key].find(el => el == '#' + hex)
+            for (key in colors) {
+              let currentColor = colors[key].find(el => el == '#' + hex)
 
               if(currentColor) {
                 ctx2.fillStyle = key
@@ -312,10 +268,12 @@ async function double(aaa) {
             }
       }
     }
+    ctx4.drawImage(canvas2, 0, 0, defaultWidth, defaultHeight)
   console.log('2 fin')
 }
 
 async function triple() {
+  console.log('triple', img.height)
   ctx3.fillStyle = '#ffffff'
   ctx3.fillRect(0,0,img.width,img.height)
 
@@ -355,13 +313,17 @@ async function triple() {
   console.log('3 fin')
 }
 
+
+
 async function clearLast() {
-  ctx.clearRect(0, 0, img.width, img.height);
-  ctx2.clearRect(0, 0, img.width, img.height);
-  canvas.width = 0
-  canvas.height = 0
-  canvas2.width = 0
-  canvas2.height = 0
+  // ctx.clearRect(0, 0, img.width, img.height);
+  // ctx2.clearRect(0, 0, img.width, img.height);
+  // canvas.width = 0
+  // canvas.height = 0
+  // canvas2.width = 0
+  // canvas2.height = 0
+
+  // ctx4.drawImage(canvas2, 0, 0, defaultWidth, defaultHeight)
 }
 
 function downloadImage() {
